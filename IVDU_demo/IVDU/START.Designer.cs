@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(START));
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnInsert = new System.Windows.Forms.Button();
             this.txtLastName = new System.Windows.Forms.TextBox();
@@ -40,14 +40,22 @@
             this.btnFillComboBox = new System.Windows.Forms.Button();
             this.cmbPersons = new System.Windows.Forms.ComboBox();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtNewLastName = new System.Windows.Forms.TextBox();
+            this.txtNewFirstName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.databaseDataSet = new IVDU.DatabaseDataSet();
+            this.tPersonsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tPersonsTableAdapter = new IVDU.DatabaseDataSetTableAdapters.TPersonsTableAdapter();
+            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tPersonsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -73,6 +81,7 @@
             this.btnInsert.TabIndex = 4;
             this.btnInsert.Text = "Insert Details";
             this.btnInsert.UseVisualStyleBackColor = true;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
             // 
             // txtLastName
             // 
@@ -113,8 +122,8 @@
             this.groupBox2.Controls.Add(this.btnFillComboBox);
             this.groupBox2.Controls.Add(this.cmbPersons);
             this.groupBox2.Controls.Add(this.btnUpdate);
-            this.groupBox2.Controls.Add(this.textBox4);
-            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.txtNewLastName);
+            this.groupBox2.Controls.Add(this.txtNewFirstName);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Location = new System.Drawing.Point(12, 190);
@@ -132,6 +141,7 @@
             this.btnDelete.TabIndex = 9;
             this.btnDelete.Text = "Delete Details";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnFillComboBox
             // 
@@ -141,6 +151,7 @@
             this.btnFillComboBox.TabIndex = 8;
             this.btnFillComboBox.Text = "View Details";
             this.btnFillComboBox.UseVisualStyleBackColor = true;
+            this.btnFillComboBox.Click += new System.EventHandler(this.btnFillComboBox_Click);
             // 
             // cmbPersons
             // 
@@ -159,21 +170,22 @@
             this.btnUpdate.TabIndex = 6;
             this.btnUpdate.Text = "Update Details";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // textBox4
+            // txtNewLastName
             // 
-            this.textBox4.Location = new System.Drawing.Point(91, 83);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 5;
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            this.txtNewLastName.Location = new System.Drawing.Point(91, 83);
+            this.txtNewLastName.Name = "txtNewLastName";
+            this.txtNewLastName.Size = new System.Drawing.Size(100, 20);
+            this.txtNewLastName.TabIndex = 5;
+            this.txtNewLastName.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
-            // textBox3
+            // txtNewFirstName
             // 
-            this.textBox3.Location = new System.Drawing.Point(91, 33);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 4;
+            this.txtNewFirstName.Location = new System.Drawing.Point(91, 33);
+            this.txtNewFirstName.Name = "txtNewFirstName";
+            this.txtNewFirstName.Size = new System.Drawing.Size(100, 20);
+            this.txtNewFirstName.TabIndex = 4;
             // 
             // label4
             // 
@@ -195,11 +207,53 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.iDDataGridViewTextBoxColumn,
+            this.firstNameDataGridViewTextBoxColumn,
+            this.lastNameDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.tPersonsBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(376, 22);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(365, 141);
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(346, 141);
             this.dataGridView1.TabIndex = 2;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // databaseDataSet
+            // 
+            this.databaseDataSet.DataSetName = "DatabaseDataSet";
+            this.databaseDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // tPersonsBindingSource
+            // 
+            this.tPersonsBindingSource.DataMember = "TPersons";
+            this.tPersonsBindingSource.DataSource = this.databaseDataSet;
+            // 
+            // tPersonsTableAdapter
+            // 
+            this.tPersonsTableAdapter.ClearBeforeFill = true;
+            // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            // 
+            // firstNameDataGridViewTextBoxColumn
+            // 
+            this.firstNameDataGridViewTextBoxColumn.DataPropertyName = "FirstName";
+            this.firstNameDataGridViewTextBoxColumn.HeaderText = "FirstName";
+            this.firstNameDataGridViewTextBoxColumn.Name = "firstNameDataGridViewTextBoxColumn";
+            // 
+            // lastNameDataGridViewTextBoxColumn
+            // 
+            this.lastNameDataGridViewTextBoxColumn.DataPropertyName = "LastName";
+            this.lastNameDataGridViewTextBoxColumn.HeaderText = "LastName";
+            this.lastNameDataGridViewTextBoxColumn.Name = "lastNameDataGridViewTextBoxColumn";
             // 
             // START
             // 
@@ -210,14 +264,16 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "START";
             this.Text = "Access DB";
+            this.Load += new System.EventHandler(this.START_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.databaseDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tPersonsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -232,14 +288,20 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnUpdate;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtNewLastName;
+        private System.Windows.Forms.TextBox txtNewFirstName;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnFillComboBox;
         private System.Windows.Forms.ComboBox cmbPersons;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private DatabaseDataSet databaseDataSet;
+        private System.Windows.Forms.BindingSource tPersonsBindingSource;
+        private DatabaseDataSetTableAdapters.TPersonsTableAdapter tPersonsTableAdapter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
     }
 }
 

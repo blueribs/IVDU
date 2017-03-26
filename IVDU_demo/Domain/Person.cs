@@ -31,5 +31,10 @@ namespace Domain
             set { lastName = value; }
         }
 
+        public override string ToString()
+        {
+            return FirstName + " " + LastName;
+        }
+
     }
 }
